@@ -90,22 +90,22 @@ async def location_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"[location_handler] Overpass returned elements_count={len(elements)}")
 
         if not elements:
-            await update.message.reply_text("附近 20 公里內找不到國家公園 🌲")
+            await update.message.reply_text("There is no nature parks in 20 kms 🌲")
             print("[location_handler] no parks found, exiting")
             return
 
         parks = []
         buttons = []
         for i, el in enumerate(elements[:5]):
-            name = el.get("tags", {}).get("name", "未命名公園")
+            name = el.get("tags", {}).get("name", "cute park")
             center = el.get("center") or {"lat": el.get("lat"), "lon": el.get("lon")}
             maps_link = f"https://www.openstreetmap.org/?mlat={center['lat']}&mlon={center['lon']}#map=15/{center['lat']}/{center['lon']}"
             parks.append(f"{i+1}. {name}")
             # 每個公園加入一個 Inline button 打開地圖
-            buttons.append([InlineKeyboardButton("在地圖中開啟", url=maps_link)])
+            buttons.append([InlineKeyboardButton("open in map", url=maps_link)])
             print(f"[location_handler] park #{i+1}: name={name} lat={center['lat']} lon={center['lon']}")
 
-        reply_text = "離你最近的國家公園：\n\n" + "\n".join(parks)
+        reply_text = "nature park nearby：\n\n" + "\n".join(parks)
         # 回覆名稱與對應的 inline buttons
         await update.message.reply_text(reply_text, reply_markup=InlineKeyboardMarkup(buttons))
         print("[location_handler] replied with parks list and inline buttons")
@@ -132,10 +132,10 @@ async def park(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         print(f"[park] invoked by user chat_id={getattr(update.message.chat, 'id', None)}")
         # 要求使用者分享位置
-        location_keyboard = [[KeyboardButton("📍 分享我的位置", request_location=True)]]
+        location_keyboard = [[KeyboardButton("📍 share my location", request_location=True)]]
         reply_markup = ReplyKeyboardMarkup(location_keyboard, one_time_keyboard=True)
         sent = await update.message.reply_text(
-            "請分享你目前的位置，我會幫你找最近的國家公園：",
+            "Please share your location. I will help you find the nature parks nearby：",
             reply_markup=reply_markup,
         )
         print(f"[park] sent location request message id={getattr(sent, 'message_id', None)}")

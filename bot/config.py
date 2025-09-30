@@ -1,8 +1,15 @@
 from dotenv import load_dotenv
 import os
 from typing import Final
+from pathlib import Path
 
+# Load local .env for development
 load_dotenv()
+
+# If Render secret file exists at /etc/secrets/.env, load it and override
+secret_path = Path('/etc/secrets/.env')
+if secret_path.exists():
+    load_dotenv(dotenv_path=str(secret_path), override=True)
 
 BOT_USERNAME: Final = '@galaxy_trail_bot'
 TOKEN: str = os.getenv('TOKEN')

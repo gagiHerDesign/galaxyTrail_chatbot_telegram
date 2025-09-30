@@ -8,8 +8,11 @@ services:
     envVars:
       - key: TOKEN
       - key: USE_WEBHOOK
+        value: true
       - key: WEBHOOK_URL
+        value: https://galaxyTrail_chatbot_telegram.onrender.com
       - key: WEBHOOK_PATH
+        value: webhook
       - key: NASA_API_KEY
       - key: OPENWEATHER_KEY
       - key: NEWS_API_KEY
