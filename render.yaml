@@ -1,5 +1,5 @@
 services:
-  - type: worker
+  - type: web
     name: galaxy-trail-bot
     env: python
     plan: free
@@ -7,10 +7,9 @@ services:
     startCommand: python main.py
     envVars:
       - key: TOKEN
-        # set this value in the Render dashboard (secret)
+      - key: USE_WEBHOOK
+      - key: WEBHOOK_URL
+      - key: WEBHOOK_PATH
       - key: NASA_API_KEY
-        # set this value in the Render dashboard (secret)
       - key: OPENWEATHER_KEY
-        # set this value in the Render dashboard (secret)
       - key: NEWS_API_KEY
-        # set this value in the Render dashboard (secret)

@@ -4,6 +4,7 @@ from bot.commands import start, help_command, park, sky, menu_handler, location_
 from bot.messages import handle_response
 from telegram.ext import ContextTypes
 from telegram import Update
+import os
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -53,9 +54,24 @@ def main():
     # error handler
     app.add_error_handler(error)
 
-    print("Bot is running...")
-    print("Polling...")
-    app.run_polling(poll_interval=3)
+    # decide between webhook or polling based on environment
+    use_webhook = os.getenv("USE_WEBHOOK", "0") == "1"
+    if use_webhook:
+        # Render provides the PORT env var; fallback to 8443
+        port = int(os.getenv("PORT", 8443))
+        listen_addr = "0.0.0.0"
+        webhook_path = os.getenv("WEBHOOK_PATH", TOKEN)
+        webhook_url = os.getenv("WEBHOOK_URL")
+        if not webhook_url:
+            raise RuntimeError("WEBHOOK_URL is required when USE_WEBHOOK=1")
+
+        print("Starting bot with webhook...")
+        # run_webhook will bind and set the webhook to Telegram
+        app.run_webhook(listen=listen_addr, port=port, url_path=webhook_path, webhook_url=f"{webhook_url}/{webhook_path}")
+    else:
+        print("Bot is running...")
+        print("Polling...")
+        app.run_polling(poll_interval=3)
 
 
 if __name__ == '__main__':
