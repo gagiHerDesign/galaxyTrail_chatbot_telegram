@@ -67,8 +67,8 @@ def main():
     use_webhook = os.getenv("USE_WEBHOOK", "").lower() == "true"
 
     if use_webhook:
-        port = int(os.getenv("PORT", "8443"))
-        webhook_url = os.getenv("WEBHOOK_URL", "")
+        port = int(os.getenv("PORT", "8080"))
+        webhook_url = os.getenv("WEBHOOK_URL")
         webhook_path = os.getenv("WEBHOOK_PATH", "webhook")
         if not webhook_url:
             raise RuntimeError("WEBHOOK_URL is required when USE_WEBHOOK=true")
