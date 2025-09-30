@@ -56,12 +56,12 @@ def main():
     app.add_error_handler(error)
 
     # ✅ 新增一個 /healthz endpoint
-    async def healthz(request):
-        return web.Response(text="ok")  # 只回傳 ok 代表健康狀態正常
+    # async def healthz(request):
+    #     return web.Response(text="ok")  # 只回傳 ok 代表健康狀態正常
 
-    web_app = app.web_app
-    web_app.router.add_get("/healthz", healthz)
-    print("Bot with /healthz endpoint is running...")
+    # web_app = app.web_app
+    # web_app.router.add_get("/healthz", healthz)
+    # print("Bot with /healthz endpoint is running...")
 
     # decide between webhook or polling based on environment
     use_webhook = os.getenv("USE_WEBHOOK", "").lower() == "true"
