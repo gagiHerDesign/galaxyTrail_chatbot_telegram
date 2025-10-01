@@ -1,5 +1,8 @@
 # Galaxy Trail Telegram Bot
 
+#See the demo video here:
+https://youtube.com/shorts/FmCyOCwAu6g?si=hcA2sMHGUwizCuCv
+
 A Telegram bot for providing astronomy-related information (parks, sky events, light pollution, forecasts). Built with python-telegram-bot and designed to run as a long-running worker process (polling).
 
 ## Requirements
